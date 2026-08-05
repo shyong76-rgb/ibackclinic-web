@@ -2,11 +2,37 @@
 
 import { useState } from 'react'
 import { Hoverable } from './Hoverable'
-import { CHANNELS } from '@/lib/site-config'
 
-// dc.html 플로팅 CTA 3종(카톡/네이버예약/위챗QR) + 위챗 모달 재현.
-export function FloatingCta() {
+export type FloatingCtaButton = {
+  id?: string
+  label: string
+  visible?: boolean | null
+  style: 'dark' | 'accent' | 'light'
+  action: 'link' | 'wechat'
+  href?: string | null
+}
+
+const STYLE_CSS: Record<FloatingCtaButton['style'], { css: string; hoverCss: string }> = {
+  dark: {
+    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#443a35;color:#fff;font-size:13.5px;letter-spacing:.02em;box-shadow:0 8px 24px rgba(68,58,53,.2)',
+    hoverCss: 'background:#aa9371',
+  },
+  accent: {
+    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#aa9371;color:#fff;font-size:13.5px;letter-spacing:.02em;box-shadow:0 8px 24px rgba(68,58,53,.2)',
+    hoverCss: 'background:#443a35;color:#fff',
+  },
+  light: {
+    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#fff;border:1px solid #ddd3c2;color:#443a35;font-size:13.5px;box-shadow:0 8px 24px rgba(68,58,53,.12)',
+    hoverCss: 'border-color:#aa9371;color:#aa9371',
+  },
+}
+
+// dc.html 플로팅 CTA 재현. 버튼 목록은 관리자(플로팅 버튼)에서 추가·삭제·순서변경 가능.
+export function FloatingCta({ buttons }: { buttons: FloatingCtaButton[] }) {
   const [wechatOpen, setWechatOpen] = useState(false)
+  const visibleButtons = buttons.filter((b) => b.visible !== false)
+
+  if (visibleButtons.length === 0) return null
 
   return (
     <>
@@ -22,44 +48,21 @@ export function FloatingCta() {
           alignItems: 'flex-end',
         }}
       >
-        <Hoverable
-          as="a"
-          href={CHANNELS.kakaoUrl}
-          target="_blank"
-          rel="noopener"
-          css="display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#443a35;color:#fff;font-size:13.5px;letter-spacing:.02em;box-shadow:0 8px 24px rgba(68,58,53,.2)"
-          hoverCss="background:#aa9371"
-        >
-          카톡 문의
-        </Hoverable>
-        <Hoverable
-          as="a"
-          href={CHANNELS.naverMapUrl}
-          target="_blank"
-          rel="noopener"
-          css="display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#aa9371;color:#fff;font-size:13.5px;letter-spacing:.02em;box-shadow:0 8px 24px rgba(68,58,53,.2)"
-          hoverCss="background:#443a35;color:#fff"
-        >
-          네이버 예약
-        </Hoverable>
-        <button
-          onClick={() => setWechatOpen(true)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            minHeight: 44,
-            padding: '13px 22px',
-            whiteSpace: 'nowrap',
-            borderRadius: 999,
-            background: '#fff',
-            border: '1px solid #ddd3c2',
-            color: '#443a35',
-            fontSize: 13.5,
-            boxShadow: '0 8px 24px rgba(68,58,53,.12)',
-          }}
-        >
-          위챗 QR
-        </button>
+        {visibleButtons.map((btn, i) => {
+          const { css, hoverCss } = STYLE_CSS[btn.style] ?? STYLE_CSS.dark
+          if (btn.action === 'wechat') {
+            return (
+              <Hoverable key={btn.id ?? i} as="button" onClick={() => setWechatOpen(true)} css={css} hoverCss={hoverCss}>
+                {btn.label}
+              </Hoverable>
+            )
+          }
+          return (
+            <Hoverable key={btn.id ?? i} as="a" href={btn.href || '#'} target="_blank" rel="noopener" css={css} hoverCss={hoverCss}>
+              {btn.label}
+            </Hoverable>
+          )
+        })}
       </div>
 
       {wechatOpen && (

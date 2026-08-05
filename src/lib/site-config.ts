@@ -14,6 +14,13 @@ export const CHANNELS = {
   naverMapUrl: 'https://map.naver.com/p/entry/place/2072489982',
 }
 
+// Payload "플로팅 버튼" 글로벌이 비어있을 때 fallback (기존 디자인 3버튼 그대로).
+export const DEFAULT_FLOATING_CTA = [
+  { label: '카톡 문의', visible: true, style: 'dark' as const, action: 'link' as const, href: CHANNELS.kakaoUrl },
+  { label: '네이버 예약', visible: true, style: 'accent' as const, action: 'link' as const, href: CHANNELS.naverMapUrl },
+  { label: '위챗 QR', visible: true, style: 'light' as const, action: 'wechat' as const, href: null },
+]
+
 export type NavChild = { label: string; href: string }
 export type NavItem = { label: string; href: string; children?: NavChild[] }
 

@@ -18,6 +18,7 @@ import { Customers } from './collections/Customers'
 import { Navigation } from './globals/Navigation'
 import { CodeSnippets } from './globals/CodeSnippets'
 import { Channels } from './globals/Channels'
+import { FloatingCta } from './globals/FloatingCta'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,7 +28,7 @@ export default buildConfig({
     user: Users.slug,
   },
   collections: [Users, Media, Procedures, Posts, Popups, Boards, BoardPosts, Customers],
-  globals: [Navigation, CodeSnippets, Channels],
+  globals: [Navigation, CodeSnippets, Channels, FloatingCta],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [...defaultFeatures, BlocksFeature({ blocks: [VideoEmbedBlock] })],
   }),

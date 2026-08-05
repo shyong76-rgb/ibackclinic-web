@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import { SiteHeader } from '@/components/site/SiteHeader'
 import { SiteFooter } from '@/components/site/SiteFooter'
-import { FloatingCta } from '@/components/site/FloatingCta'
+import { FloatingCta, type FloatingCtaButton } from '@/components/site/FloatingCta'
 import { PopupRenderer, type PopupData } from '@/components/site/PopupRenderer'
 import { CodeSnippets, type SnippetData } from '@/components/site/CodeSnippets'
 import { getPayloadClient } from '@/lib/payload'
-import { DEFAULT_NAV, type NavItem } from '@/lib/site-config'
+import { DEFAULT_NAV, DEFAULT_FLOATING_CTA, type NavItem } from '@/lib/site-config'
 import './globals.css'
 
 // Navigation·Popups는 Payload 관리자에서 실시간으로 편집되므로 빌드 시점에
@@ -64,8 +64,19 @@ async function loadSnippets(): Promise<SnippetData[]> {
   }
 }
 
+async function loadFloatingCta(): Promise<FloatingCtaButton[]> {
+  try {
+    const payload = await getPayloadClient()
+    const g = await payload.findGlobal({ slug: 'floating-cta' })
+    const buttons = (g?.buttons ?? []) as FloatingCtaButton[]
+    return buttons.length ? buttons : DEFAULT_FLOATING_CTA
+  } catch {
+    return DEFAULT_FLOATING_CTA
+  }
+}
+
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
-  const [nav, popups, snippets] = await Promise.all([loadNav(), loadPopups(), loadSnippets()])
+  const [nav, popups, snippets, ctaButtons] = await Promise.all([loadNav(), loadPopups(), loadSnippets(), loadFloatingCta()])
   return (
     <html lang="ko">
       <head>
@@ -85,7 +96,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         <CodeSnippets snippets={snippets} placement="body" />
         {children}
         <SiteFooter />
-        <FloatingCta />
+        <FloatingCta buttons={ctaButtons} />
         <PopupRenderer popups={popups} />
         <CodeSnippets snippets={snippets} placement="footer" />
       </body>
