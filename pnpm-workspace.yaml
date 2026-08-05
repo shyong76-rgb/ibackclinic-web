@@ -1,0 +1,17 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+
+# 배포 함정#6 대응: Vercel(linux-x64)에서 sharp 네이티브 바이너리 로드 실패 방지.
+# 로컬(win32)과 linux-x64 둘 다 포함해야 lockfile에 두 플랫폼 바이너리가 잡힘.
+supportedArchitectures:
+  os:
+    - current
+    - linux
+  cpu:
+    - current
+    - x64
+  libc:
+    - current
+    - glibc
