@@ -1,12 +1,24 @@
 # 배포 가이드 (GitHub → Vercel)
 
 ## 사전 준비 완료 상태
-- DB: Neon Postgres (pooled) — 마이그레이션 `src/migrations/` 커밋됨
-- `package.json`에 `vercel-build`: `payload migrate && next build` (Vercel이 `build` 대신 자동 사용)
-- `engines.node`: `22.x` 고정 (로컬 Node 24에서 payload CLI가 tsx/ESM 버그로 죽는 문제 있어서 Payload 공식 지원 버전으로 고정. 20.x는 Vercel이 deprecated 처리해서 22.x로 감)
+- DB: Neon Postgres (pooled) — 마이그레이션 `src/migrations/` 커밋됨, **이미 Neon에 직접 적용 완료**
+- 빌드 스크립트는 순수 `next build` (마이그레이션 CLI를 빌드에서 안 돌림 — 아래 "왜 payload migrate를 빌드에서 안 돌리나" 참고)
+- `engines.node`: `22.x` (Vercel이 20.x를 deprecated 처리해서)
 - Media 업로드: `BLOB_READ_WRITE_TOKEN` 있으면 Vercel Blob, 없으면 로컬 디스크로 자동 폴백
 - 공개 읽기 권한(Media/Procedures/Posts/Boards 등) 이미 설정됨
 - sharp linux-x64 바이너리 lockfile에 포함됨 (`pnpm-workspace.yaml` supportedArchitectures)
+
+## ⚠️ 왜 `payload migrate`를 빌드에서 안 돌리나
+`payload` CLI의 `migrate` 계열 명령이 tsx 4.22.4 + richtext-lexical(ESM,
+top-level await) 조합에서 `ERR_REQUIRE_ASYNC_MODULE`로 죽는 버그가 있음.
+로컬 Node 24, Vercel 빌드서버 Node 22.22.2 **둘 다에서 재현됨** — Node 버전
+문제가 아니라 Payload CLI/tsx 자체 버그(3.87.0 기준). 그래서:
+- 빌드 스크립트에는 `next build`만 넣음
+- 스키마를 바꿀 때마다 **배포 전에 로컬에서 프로덕션 Neon에 직접 마이그레이션을
+  적용**해야 함 (CLI 대신 Next 개발서버 안에 임시 API 라우트를 만들어
+  `payload.db.createMigration(...)`/`payload.db.migrateFresh(...)`를 직접 호출 —
+  이번 세팅 때 쓴 방법. 라우트는 쓰고 나서 지움)
+- 마이그레이션 파일(`src/migrations/`)은 커밋해서 레포에 남겨둠
 
 ## 1. GitHub에 올리기
 
