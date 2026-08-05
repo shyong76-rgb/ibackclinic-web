@@ -15,6 +15,7 @@ export type PopupData = {
   id: string
   name: string
   type: 'single' | 'slide' | 'bottom-bar' | 'modal'
+  size?: 'small' | 'medium' | 'large' | null
   slides?: Slide[] | null
   trigger: 'immediate' | 'delay' | 'scroll' | 'exit-intent'
   delaySeconds?: number | null
@@ -25,6 +26,8 @@ export type PopupData = {
   frequency: 'every-visit' | 'first-visit-only' | 'once-per-day'
   device: 'all' | 'mobile' | 'desktop'
 }
+
+const SIZE_PX: Record<'small' | 'medium' | 'large', number> = { small: 380, medium: 480, large: 600 }
 
 function seenKey(id: string) {
   return `popup-seen:${id}`
@@ -176,7 +179,7 @@ export function PopupRenderer({ popups }: { popups: PopupData[] }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ background: '#fff', maxWidth: 380, width: '100%', position: 'relative', textAlign: 'center' }}
+        style={{ background: '#fff', maxWidth: SIZE_PX[active.size ?? 'small'], width: '100%', position: 'relative', textAlign: 'center' }}
       >
         <button
           onClick={close}

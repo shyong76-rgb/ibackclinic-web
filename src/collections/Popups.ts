@@ -25,6 +25,21 @@ export const Popups: CollectionConfig = {
       ],
     },
     {
+      name: 'size',
+      type: 'select',
+      label: '크기',
+      defaultValue: 'small',
+      options: [
+        { label: '작게 (380px)', value: 'small' },
+        { label: '보통 (480px)', value: 'medium' },
+        { label: '크게 (600px)', value: 'large' },
+      ],
+      admin: {
+        description: '개별·슬라이드·전면 팝업에만 적용 (하단바는 항상 화면 전체 너비)',
+        condition: (_, siblingData) => siblingData.type !== 'bottom-bar',
+      },
+    },
+    {
       name: 'slides',
       type: 'array',
       label: '내용(슬라이드)',
