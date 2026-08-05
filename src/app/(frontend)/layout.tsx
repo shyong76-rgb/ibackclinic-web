@@ -3,6 +3,7 @@ import { SiteHeader } from '@/components/site/SiteHeader'
 import { SiteFooter } from '@/components/site/SiteFooter'
 import { FloatingCta } from '@/components/site/FloatingCta'
 import { PopupRenderer, type PopupData } from '@/components/site/PopupRenderer'
+import { CodeSnippets, type SnippetData } from '@/components/site/CodeSnippets'
 import { getPayloadClient } from '@/lib/payload'
 import { DEFAULT_NAV, type NavItem } from '@/lib/site-config'
 import './globals.css'
@@ -53,8 +54,18 @@ async function loadPopups(): Promise<PopupData[]> {
   }
 }
 
+async function loadSnippets(): Promise<SnippetData[]> {
+  try {
+    const payload = await getPayloadClient()
+    const g = await payload.findGlobal({ slug: 'code-snippets' })
+    return (g?.snippets ?? []) as SnippetData[]
+  } catch {
+    return []
+  }
+}
+
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
-  const [nav, popups] = await Promise.all([loadNav(), loadPopups()])
+  const [nav, popups, snippets] = await Promise.all([loadNav(), loadPopups(), loadSnippets()])
   return (
     <html lang="ko">
       <head>
@@ -69,11 +80,14 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         />
       </head>
       <body style={{ minHeight: '100vh', margin: 0 }}>
+        <CodeSnippets snippets={snippets} placement="header" />
         <SiteHeader nav={nav} />
+        <CodeSnippets snippets={snippets} placement="body" />
         {children}
         <SiteFooter />
         <FloatingCta />
         <PopupRenderer popups={popups} />
+        <CodeSnippets snippets={snippets} placement="footer" />
       </body>
     </html>
   )

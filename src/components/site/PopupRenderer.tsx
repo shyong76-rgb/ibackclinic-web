@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { matchesPath } from '@/lib/path-match'
 
 type Slide = {
   image?: { url?: string } | string | null
@@ -42,14 +43,6 @@ function isDismissedByFrequency(popup: PopupData): boolean {
 
 function markSeen(id: string) {
   localStorage.setItem(seenKey(id), String(Date.now()))
-}
-
-function matchesPath(showOnPaths: string | null | undefined, pathname: string): boolean {
-  if (!showOnPaths || showOnPaths.trim() === '*') return true
-  return showOnPaths
-    .split(',')
-    .map((p) => p.trim())
-    .some((p) => p === pathname || (p.endsWith('*') && pathname.startsWith(p.slice(0, -1))))
 }
 
 function matchesDevice(device: PopupData['device']): boolean {
