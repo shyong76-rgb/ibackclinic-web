@@ -3,7 +3,7 @@
 ## 사전 준비 완료 상태
 - DB: Neon Postgres (pooled) — 마이그레이션 `src/migrations/` 커밋됨
 - `package.json`에 `vercel-build`: `payload migrate && next build` (Vercel이 `build` 대신 자동 사용)
-- `engines.node`: `20.x` 고정 (로컬 Node 24에서 payload CLI가 tsx/ESM 버그로 죽는 문제 있어서, Vercel은 Payload 공식 지원 버전으로 고정함)
+- `engines.node`: `22.x` 고정 (로컬 Node 24에서 payload CLI가 tsx/ESM 버그로 죽는 문제 있어서 Payload 공식 지원 버전으로 고정. 20.x는 Vercel이 deprecated 처리해서 22.x로 감)
 - Media 업로드: `BLOB_READ_WRITE_TOKEN` 있으면 Vercel Blob, 없으면 로컬 디스크로 자동 폴백
 - 공개 읽기 권한(Media/Procedures/Posts/Boards 등) 이미 설정됨
 - sharp linux-x64 바이너리 lockfile에 포함됨 (`pnpm-workspace.yaml` supportedArchitectures)
