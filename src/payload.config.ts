@@ -3,8 +3,9 @@ import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { lexicalEditor, BlocksFeature } from '@payloadcms/richtext-lexical'
 import sharp from 'sharp'
+import { VideoEmbedBlock } from './blocks/VideoEmbedBlock'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -27,7 +28,9 @@ export default buildConfig({
   },
   collections: [Users, Media, Procedures, Posts, Popups, Boards, BoardPosts, Customers],
   globals: [Navigation, CodeSnippets, Channels],
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [...defaultFeatures, BlocksFeature({ blocks: [VideoEmbedBlock] })],
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
