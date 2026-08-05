@@ -34,7 +34,17 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
           I&#8209;BACK<span style={{ color: '#aa9371' }}> CLINIC</span>
         </Link>
 
-        <nav className="hidden min-[1180px]:flex" style={{ margin: '0 auto', gap: 'clamp(12px,2.4vw,34px)', alignItems: 'center' }}>
+        <nav
+          className="hidden min-[1180px]:flex"
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            gap: 'clamp(12px,2.4vw,34px)',
+            alignItems: 'center',
+          }}
+        >
           {nav.map((item) => (
             <div key={item.label} className="group" style={{ position: 'relative', padding: '32px 0' }}>
               <Link href={item.href} style={{ fontSize: 15 }}>
