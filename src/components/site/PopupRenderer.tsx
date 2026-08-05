@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { matchesPath } from '@/lib/path-match'
+import { matchesSelectedPages } from '@/lib/path-match'
 
 type Slide = {
   image?: { url?: string } | string | null
@@ -19,7 +19,7 @@ export type PopupData = {
   trigger: 'immediate' | 'delay' | 'scroll' | 'exit-intent'
   delaySeconds?: number | null
   scrollPercent?: number | null
-  showOnPaths?: string | null
+  showOnPaths?: string[] | null
   startAt?: string | null
   endAt?: string | null
   frequency: 'every-visit' | 'first-visit-only' | 'once-per-day'
@@ -71,7 +71,7 @@ export function PopupRenderer({ popups }: { popups: PopupData[] }) {
 
   useEffect(() => {
     const eligible = popups.filter(
-      (p) => withinDateRange(p) && matchesPath(p.showOnPaths, pathname) && matchesDevice(p.device) && !isDismissedByFrequency(p),
+      (p) => withinDateRange(p) && matchesSelectedPages(p.showOnPaths, pathname) && matchesDevice(p.device) && !isDismissedByFrequency(p),
     )
     if (eligible.length === 0) return
 

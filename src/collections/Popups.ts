@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { SITE_PAGE_OPTIONS } from '@/lib/site-config'
 
 // 팝업 풀세트: 타입/노출조건(트리거·페이지·기간·빈도·디바이스)을 프론트에서 판정해 렌더.
 export const Popups: CollectionConfig = {
@@ -48,7 +49,15 @@ export const Popups: CollectionConfig = {
     },
     { name: 'delaySeconds', type: 'number', label: '지연 시간(초)', admin: { condition: (_, siblingData) => siblingData.trigger === 'delay' } },
     { name: 'scrollPercent', type: 'number', label: '스크롤 비율(%)', admin: { condition: (_, siblingData) => siblingData.trigger === 'scroll' } },
-    { name: 'showOnPaths', type: 'text', label: '노출 페이지', defaultValue: '*', admin: { description: "쉼표로 구분. '*' = 전체 페이지" } },
+    {
+      name: 'showOnPaths',
+      type: 'select',
+      label: '노출 페이지',
+      hasMany: true,
+      defaultValue: ['*'],
+      options: SITE_PAGE_OPTIONS,
+      admin: { description: '이 팝업을 띄울 페이지를 골라줘. 여러 개 선택 가능' },
+    },
     { name: 'startAt', type: 'date', label: '시작일' },
     { name: 'endAt', type: 'date', label: '종료일' },
     {

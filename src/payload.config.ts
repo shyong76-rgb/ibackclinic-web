@@ -39,6 +39,10 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI,
     },
+    // dev auto-push를 끔: 스키마 필드 바뀔 때마다 대화형(y/N) 확인 프롬프트가 떠서
+    // 서버 프로세스가 그대로 멈추는 문제가 반복됐음. 대신 스키마 바뀌면 그때그때
+    // 마이그레이션을 만들어서 직접 적용하는 방식으로 통일(DEPLOY.md 절차 참고).
+    push: false,
   }),
   sharp,
   // Vercel Blob 토큰이 있을 때만 활성화(프로덕션). 로컬 dev는 토큰 없으면 디스크(media/)로 폴백.

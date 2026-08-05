@@ -1,3 +1,14 @@
+// 팝업(추후 코드삽입도) 노출 페이지 선택지. 새 페이지/게시판 추가 시 여기만 늘리면 됨.
+export const SITE_PAGE_OPTIONS = [
+  { label: '전체 페이지', value: '*' },
+  { label: '홈', value: '/' },
+  { label: '아이백클리어', value: '/i-back-clear' },
+  { label: '다크서클', value: '/dark-circle' },
+  { label: '로그인', value: '/login' },
+  { label: '전후사진 게시판', value: '/board/before-after' },
+  { label: '게시판 전체(모든 게시판+글)', value: '/board/*' },
+]
+
 export const CHANNELS = {
   kakaoUrl: 'http://pf.kakao.com/_xnxoxkGX',
   naverMapUrl: 'https://map.naver.com/p/entry/place/2072489982',
