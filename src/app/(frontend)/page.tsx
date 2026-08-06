@@ -20,7 +20,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section id="top" style={cssObj(`padding:clamp(90px,12vw,170px) clamp(22px,6vw,48px) clamp(70px,9vw,120px);text-align:center`)}>
+      <section id="top" style={cssObj(`padding:clamp(90px,12vw,170px) clamp(22px,6vw,48px);text-align:center`)}>
         <div style={cssObj(`max-width:900px;margin:0 auto`)}>
           <Reveal as="p" style={cssObj(`margin:0 0 clamp(18px,2.6vw,26px);font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>
             CLING AESTHETIC
@@ -30,7 +30,7 @@ export default function HomePage() {
             <br />
             피부 관리
           </Reveal>
-          <Reveal as="p" style={cssObj(`margin:clamp(18px,2.4vw,26px) auto 0;max-width:30em;font-size:clamp(15px,2.1vw,22px);font-weight:400;line-height:1.6;color:#4b4b4b`)}>
+          <Reveal as="p" style={cssObj(`margin:clamp(28px,3.6vw,40px) auto 0;max-width:30em;font-size:clamp(15px,2.1vw,22px);font-weight:400;line-height:1.6;color:#4b4b4b`)}>
             강한 관리보다 맞는 순서를 먼저 봅니다. 1:1 상담으로 오늘 필요한 관리와 강도를 함께 정합니다.
           </Reveal>
           <Reveal style={cssObj(`display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:clamp(28px,3.6vw,40px)`)}>
@@ -44,7 +44,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="philosophy" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px);text-align:center`)}>
+      <section id="philosophy" style={cssObj(`background:#f7f5f3;padding:clamp(90px,12vw,170px) clamp(22px,6vw,48px);text-align:center`)}>
         <Reveal as="p" style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>
           OUR PHILOSOPHY
         </Reveal>
@@ -53,8 +53,8 @@ export default function HomePage() {
           <br />
           순서에서 시작합니다.
         </Reveal>
-        <Reveal style={cssObj(`width:1px;height:clamp(18px,2.4vw,30px);margin:clamp(14px,1.8vw,20px) auto 0;background:linear-gradient(#e8e4e1,rgba(232,228,225,0))`)} />
-        <div style={cssObj(`max-width:1200px;margin:clamp(12px,1.6vw,18px) auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));text-align:left`)}>
+        <Reveal style={cssObj(`width:1px;height:clamp(14px,1.8vw,20px);margin:clamp(28px,3.6vw,40px) auto 0;background:linear-gradient(#e8e4e1,rgba(232,228,225,0))`)} />
+        <div style={cssObj(`max-width:1200px;margin:clamp(10px,1.3vw,16px) auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));text-align:left`)}>
           <Reveal style={cssObj(`padding:clamp(24px,3vw,36px) clamp(20px,2.6vw,40px)`)}>
             <p style={cssObj(`margin:0;font-size:12px;letter-spacing:.24em;color:#d08c81`)}>01</p>
             <p style={cssObj(`margin:14px 0 0;font-size:clamp(16px,1.9vw,19px);font-weight:500`)}>1:1 프라이빗 상담</p>
@@ -89,7 +89,7 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      <section id="firstvisit" style={cssObj(`padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+      <section id="firstvisit" style={cssObj(`padding:clamp(90px,12vw,170px) clamp(22px,6vw,48px)`)}>
         <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(34px,5vw,72px);align-items:start`)}>
           <Reveal>
             <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>FIRST VISIT</p>
@@ -118,8 +118,8 @@ export default function HomePage() {
       </section>
 
       <section id="signature" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
-        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
-          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:stretch`)}>
+          <Reveal style={cssObj(`width:100%;max-width:420px;height:100%;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
             <video src="/assets/home-signature.mp4" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </Reveal>
           <Reveal style={cssObj(`max-width:30em`)}>
@@ -130,7 +130,7 @@ export default function HomePage() {
               피부가 달라지는 순서
             </h2>
             <p style={cssObj(`margin:clamp(18px,2.4vw,26px) 0 0;font-size:clamp(15px,1.9vw,18px);line-height:1.9;color:#4b4b4b`)}>정리하고 · 다듬고 · 끌어올리고 · 채웁니다.</p>
-            <div style={cssObj(`margin-top:clamp(24px,3.2vw,36px);display:grid;gap:0`)}>
+            <div style={cssObj(`margin-top:clamp(72px,9.6vw,108px);display:grid;gap:0`)}>
               {['클렌징', '라라필', '웨이브온 리프팅', '벨벳 콜라겐'].map((label, i, arr) => (
                 <div
                   key={label}
@@ -155,8 +155,8 @@ export default function HomePage() {
       </section>
 
       <section id="wave" style={cssObj(`padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
-        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
-          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:stretch`)}>
+          <Reveal style={cssObj(`width:100%;max-width:420px;height:100%;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
             <video src="/assets/home-wave.mp4" aria-label="웨이브온 리프팅" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </Reveal>
           <Reveal style={cssObj(`max-width:30em`)}>
@@ -167,7 +167,7 @@ export default function HomePage() {
               자극은 남지 않게
             </h2>
             <p style={cssObj(`margin:clamp(18px,2.4vw,26px) 0 0;font-size:clamp(15px,1.9vw,18px);line-height:1.9;color:#4b4b4b`)}>극초단파로 속부터 끌어올리는 비수술 리프팅입니다.</p>
-            <div style={cssObj(`margin-top:clamp(24px,3.2vw,36px);display:grid;gap:0`)}>
+            <div style={cssObj(`margin-top:clamp(72px,9.6vw,108px);display:grid;gap:0`)}>
               {['딥 클렌징', '웨이브온 롤링', '진정 보습팩'].map((label, i, arr) => (
                 <div
                   key={label}
@@ -192,8 +192,8 @@ export default function HomePage() {
       </section>
 
       <section id="acne" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
-        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
-          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:stretch`)}>
+          <Reveal style={cssObj(`width:100%;max-width:420px;height:100%;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
             <video src="/assets/home-acne.mp4" aria-label="여드름 관리" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </Reveal>
           <Reveal style={cssObj(`max-width:30em`)}>
@@ -204,7 +204,7 @@ export default function HomePage() {
               밸런스부터
             </h2>
             <p style={cssObj(`margin:clamp(18px,2.4vw,26px) 0 0;font-size:clamp(15px,1.9vw,18px);line-height:1.9;color:#4b4b4b`)}>강한 관리보다 무너진 유수분 밸런스를 먼저 잡습니다.</p>
-            <div style={cssObj(`margin-top:clamp(24px,3.2vw,36px);display:grid;gap:0`)}>
+            <div style={cssObj(`margin-top:clamp(72px,9.6vw,108px);display:grid;gap:0`)}>
               {['클렌징 · 딥클렌징', '진정 팩 (1차)', '여드름 기기 관리', '마무리 팩 (2차)'].map((label, i, arr) => (
                 <div
                   key={label}
