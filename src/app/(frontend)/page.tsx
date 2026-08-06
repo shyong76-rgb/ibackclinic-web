@@ -10,7 +10,6 @@ export default function HomePage() {
       <section style={{ position: 'relative', width: '100%', height: '82vh', minHeight: 460, overflow: 'hidden' }}>
         <video
           src="/assets/hero-30s.mp4"
-          poster="/assets/home-hero-poster.jpg"
           autoPlay
           muted
           loop
