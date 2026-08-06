@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* DESIGN.md 토큰 — 아이백의원 기존 웜톤 팔레트 (그대로 유지, 케이트클리닉 색상 이식 안 함) */
-  --color-ink: #443a35;       /* 본문 텍스트 */
-  --color-ink-soft: #6b6058;  /* 본문보조 */
-  --color-caption: #8a7f72;   /* 캡션 */
-  --color-accent: #aa9371;    /* 포인트(레이블·링크) */
-  --color-number: #c4b393;    /* 넘버링 */
-  --color-ivory: #f8f5ef;     /* 연한 배경 */
-  --color-dark: #443a35;      /* 하단 CTA·푸터 */
-  --color-dark-deep: #3a322e;
-  --color-hairline: #efe9de;  /* 1px 헤어라인 */
-  --color-selection: #e3dbcc;
+  /* DESIGN.md 토큰 — 클링 에스테틱 팔레트 (beautyinstem.com 벤치마크, 더스티로즈 액센트로 치환) */
+  --color-ink: #331b0f;       /* 본문 텍스트 (웜톤 다크브라운) */
+  --color-ink-soft: #4b4b4b;  /* 본문보조 */
+  --color-caption: #555;      /* 캡션 */
+  --color-accent: #d08c81;    /* 포인트(레이블·링크) — 더스티 로즈 */
+  --color-number: #e8c5c1;    /* 넘버링·블러시 호버 */
+  --color-ivory: #fbfaf9;     /* 연한 배경 */
+  --color-dark: #331b0f;      /* 하단 CTA·푸터 */
+  --color-dark-deep: #2d1c14;
+  --color-hairline: #e8e4e1;  /* 1px 헤어라인 */
+  --color-selection: #f0e9e9;
 }
 
 @theme inline {

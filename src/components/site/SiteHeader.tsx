@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Hoverable } from './Hoverable'
-import { CHANNELS, DEFAULT_NAV, type NavItem } from '@/lib/site-config'
+import { DEFAULT_NAV, type NavItem } from '@/lib/site-config'
 
 // dc.html 헤더(고정 GNB+드롭다운+버거) 재현. 반응형 전환은 JS resize 리스너 대신
 // Tailwind의 min-[1180px]: 브레이크포인트로 CSS만으로 처리(원본은 JS로 처리했음).
@@ -31,7 +31,7 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
           href="/"
           style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 400, letterSpacing: '.16em', fontSize: 15, whiteSpace: 'nowrap' }}
         >
-          I&#8209;BACK<span style={{ color: '#aa9371' }}> CLINIC</span>
+          CLING<span style={{ color: '#d08c81' }}> AESTHETIC</span>
         </Link>
 
         <nav
@@ -83,16 +83,13 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
           <Link href="/login" style={{ fontSize: 13, color: '#8a7f75', whiteSpace: 'nowrap' }}>
             로그인
           </Link>
-          <a href={CHANNELS.kakaoUrl} target="_blank" rel="noopener" style={{ fontSize: 13, color: '#8a7f75', whiteSpace: 'nowrap' }}>
-            카카오 문의
-          </a>
           <Hoverable
             as={Link}
-            href="/#contact"
-            css="font-size:13px;letter-spacing:.02em;padding:11px 22px;border:1px solid #aa9371;color:#aa9371;white-space:nowrap"
-            hoverCss="background:#aa9371;color:#fff"
+            href="/reservation"
+            css="font-size:13px;letter-spacing:.02em;padding:11px 22px;border:1px solid #d08c81;color:#d08c81;white-space:nowrap"
+            hoverCss="background:#d08c81;color:#fff"
           >
-            상담문의
+            예약 문의하기
           </Hoverable>
         </div>
 
@@ -144,11 +141,11 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
             </Link>
           ))}
           <Link
-            href="/#contact"
+            href="/reservation"
             onClick={() => setMobileOpen(false)}
-            style={{ marginTop: 28, textAlign: 'center', fontSize: 16, padding: 18, background: '#aa9371', color: '#fff' }}
+            style={{ marginTop: 28, textAlign: 'center', fontSize: 16, padding: 18, background: '#d08c81', color: '#fff' }}
           >
-            상담문의
+            예약 문의하기
           </Link>
         </div>
       )}

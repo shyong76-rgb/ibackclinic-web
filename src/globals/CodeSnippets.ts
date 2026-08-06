@@ -30,7 +30,7 @@ export const CodeSnippets: GlobalConfig = {
           type: 'text',
           label: '노출 페이지',
           defaultValue: '*',
-          admin: { description: "쉼표로 구분해서 여러 개 지정 가능. 예: /, /i-back-clear  ·  '*' = 전체 페이지  ·  '/board/*' 처럼 끝에 *를 붙이면 그 하위 경로 전체" },
+          admin: { description: "쉼표로 구분해서 여러 개 지정 가능. 예: /, /procedures/wave-on-lifting  ·  '*' = 전체 페이지  ·  '/board/*' 처럼 끝에 *를 붙이면 그 하위 경로 전체" },
         },
         { name: 'active', type: 'checkbox', label: '활성화', defaultValue: true },
       ],

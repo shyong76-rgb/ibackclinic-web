@@ -13,8 +13,8 @@ import './globals.css'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: '아이백의원 | I-BACK CLINIC',
-  description: '강남 아이백의원 — 완전 비절개 눈밑지방재배치 아이백클리어, 다크서클 진료',
+  title: '클링 에스테틱 | CLING AESTHETIC — 왕십리 에스테틱',
+  description: '왕십리 클링 에스테틱 — 웨이브온 리프팅, 여드름 관리, 수분관리, 콜라겐 벨벳 관리, 필링, 리베룩. 왕십리역 도보권 피부관리샵.',
 }
 
 type RawNavItem = {

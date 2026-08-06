@@ -3,6 +3,8 @@ import * as migration_20260805_053215_code_snippets_show_on_paths from './202608
 import * as migration_20260805_063943_popups_page_select from './20260805_063943_popups_page_select';
 import * as migration_20260805_070444_floating_cta from './20260805_070444_floating_cta';
 import * as migration_20260805_074547_popups_size from './20260805_074547_popups_size';
+import * as migration_20260806_120000_procedures_cling_fields from './20260806_120000_procedures_cling_fields';
+import * as migration_20260806_121000_channels_direct_links from './20260806_121000_channels_direct_links';
 
 export const migrations = [
   {
@@ -29,5 +31,15 @@ export const migrations = [
     up: migration_20260805_074547_popups_size.up,
     down: migration_20260805_074547_popups_size.down,
     name: '20260805_074547_popups_size'
+  },
+  {
+    up: migration_20260806_120000_procedures_cling_fields.up,
+    down: migration_20260806_120000_procedures_cling_fields.down,
+    name: '20260806_120000_procedures_cling_fields',
+  },
+  {
+    up: migration_20260806_121000_channels_direct_links.up,
+    down: migration_20260806_121000_channels_direct_links.down,
+    name: '20260806_121000_channels_direct_links',
   },
 ];
