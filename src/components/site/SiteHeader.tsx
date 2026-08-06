@@ -2,13 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Hoverable } from './Hoverable'
 import { DEFAULT_NAV, type NavItem } from '@/lib/site-config'
 
-// dc.html 헤더(고정 GNB+드롭다운+버거) 재현. 반응형 전환은 JS resize 리스너 대신
-// Tailwind의 min-[1180px]: 브레이크포인트로 CSS만으로 처리(원본은 JS로 처리했음).
+// Claude Design 산출물(클링에스테틱 홈페이지 리디자인1/*.dc.html) 헤더를 그대로 이식.
+// 반응형 전환은 Tailwind의 min-[1180px]: 브레이크포인트로 처리(원본은 JS resize 리스너 사용).
 export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
+  const isActive = (href: string) => pathname === href
 
   return (
     <>
@@ -18,76 +21,40 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
           top: 0,
           left: 0,
           right: 0,
-          height: 85,
+          height: 78,
           zIndex: 100,
-          background: 'rgba(255,255,255,.94)',
-          backdropFilter: 'blur(8px)',
+          background: 'rgba(255,255,255,.82)',
+          backdropFilter: 'blur(24px)',
           display: 'flex',
           alignItems: 'center',
-          padding: '0 clamp(18px,4vw,56px)',
+          padding: '0 clamp(18px,4vw,48px)',
         }}
       >
-        <Link
-          href="/"
-          style={{ fontFamily: 'Poppins,sans-serif', fontWeight: 400, letterSpacing: '.16em', fontSize: 15, whiteSpace: 'nowrap' }}
-        >
-          CLING<span style={{ color: '#d08c81' }}> AESTHETIC</span>
-        </Link>
-
         <nav
           className="hidden min-[1180px]:flex"
-          style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            gap: 'clamp(12px,2.4vw,34px)',
-            alignItems: 'center',
-          }}
+          style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', gap: 'clamp(10px,1.6vw,22px)', alignItems: 'center' }}
         >
           {nav.map((item) => (
-            <div key={item.label} className="group" style={{ position: 'relative', padding: '32px 0' }}>
-              <Link href={item.href} style={{ fontSize: 15 }}>
-                {item.label}
-              </Link>
-              {item.children && item.children.length > 0 && (
-                <div
-                  className="opacity-0 invisible group-hover:opacity-100 group-hover:visible"
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    transition: 'opacity .3s',
-                    background: '#fff',
-                    padding: '14px 20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 10,
-                    whiteSpace: 'nowrap',
-                    boxShadow: '0 12px 30px rgba(68,58,53,.08)',
-                  }}
-                >
-                  {item.children.map((child) => (
-                    <Link key={child.label} href={child.href} style={{ fontSize: 13.5, color: '#6b6058' }}>
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+            <Link
+              key={item.label}
+              href={item.href}
+              style={{ fontSize: 13.5, letterSpacing: '-.01em', whiteSpace: 'nowrap', color: isActive(item.href) ? '#d08c81' : undefined }}
+            >
+              {item.label}
+            </Link>
           ))}
         </nav>
 
-        <div className="hidden min-[1180px]:flex" style={{ alignItems: 'center', gap: 18, marginLeft: 'auto' }}>
-          <Link href="/login" style={{ fontSize: 13, color: '#8a7f75', whiteSpace: 'nowrap' }}>
-            로그인
-          </Link>
+        <Link href="/" style={{ fontSize: 15, fontWeight: 600, letterSpacing: '.22em', whiteSpace: 'nowrap' }}>
+          CLING
+        </Link>
+
+        <div id="util" className="hidden min-[1180px]:flex" style={{ marginLeft: 'auto', alignItems: 'center' }}>
           <Hoverable
             as={Link}
             href="/reservation"
-            css="font-size:13px;letter-spacing:.02em;padding:11px 22px;border:1px solid #d08c81;color:#d08c81;white-space:nowrap"
-            hoverCss="background:#d08c81;color:#fff"
+            css="font-size:13.5px;letter-spacing:.02em;padding:12px 26px;border:1px solid #331b0f;white-space:nowrap"
+            hoverCss="background:#2d1c14;color:#fff;border-color:#2d1c14"
           >
             예약 문의하기
           </Hoverable>
@@ -110,9 +77,9 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
             justifyContent: 'center',
           }}
         >
-          <span style={{ display: 'block', width: 22, height: 1, background: '#443a35' }} />
-          <span style={{ display: 'block', width: 22, height: 1, background: '#443a35' }} />
-          <span style={{ display: 'block', width: 22, height: 1, background: '#443a35' }} />
+          <span style={{ display: 'block', width: 22, height: 1, background: '#331b0f' }} />
+          <span style={{ display: 'block', width: 22, height: 1, background: '#331b0f' }} />
+          <span style={{ display: 'block', width: 22, height: 1, background: '#331b0f' }} />
         </button>
       </header>
 
@@ -123,10 +90,10 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
             inset: 0,
             zIndex: 99,
             background: '#fff',
-            padding: '100px clamp(22px,7vw,48px) 40px',
+            padding: '96px clamp(22px,7vw,44px) 40px',
             display: 'flex',
             flexDirection: 'column',
-            gap: 2,
+            gap: 0,
             overflowY: 'auto',
           }}
         >
@@ -135,7 +102,7 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
               key={item.label}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              style={{ fontSize: 20, padding: '16px 0', borderBottom: '1px solid #f0ebe2' }}
+              style={{ fontSize: 19, padding: '15px 0', borderBottom: '1px solid #f1eeeb', color: isActive(item.href) ? '#d08c81' : undefined }}
             >
               {item.label}
             </Link>
@@ -143,7 +110,7 @@ export function SiteHeader({ nav = DEFAULT_NAV }: { nav?: NavItem[] }) {
           <Link
             href="/reservation"
             onClick={() => setMobileOpen(false)}
-            style={{ marginTop: 28, textAlign: 'center', fontSize: 16, padding: 18, background: '#d08c81', color: '#fff' }}
+            style={{ marginTop: 26, textAlign: 'center', fontSize: 16, padding: 18, background: '#331b0f', color: '#fff' }}
           >
             예약 문의하기
           </Link>

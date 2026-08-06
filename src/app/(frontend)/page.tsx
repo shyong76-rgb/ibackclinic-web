@@ -2,180 +2,348 @@ import Link from 'next/link'
 import { cssObj } from '@/lib/css'
 import { Reveal } from '@/components/site/Reveal'
 import { HoverLink } from '@/components/site/HoverLink'
-import { getPayloadClient } from '@/lib/payload'
 
-type MediaLike = { url?: string | null } | string | null | undefined
-const imgUrl = (m: MediaLike) => (typeof m === 'string' ? m : m?.url ?? undefined)
-
-async function loadProcedures() {
-  try {
-    const payload = await getPayloadClient()
-    const res = await payload.find({ collection: 'procedures', depth: 1, limit: 20, sort: 'createdAt' })
-    return res.docs
-  } catch {
-    return []
-  }
-}
-
-const CARD_ORDER = ['wave-on-lifting', 'acne-care', 'hydration-care', 'collagen-velvet', 'peeling', 'revelook']
-
-export default async function HomePage() {
-  const procedures = await loadProcedures()
-  const bySlug = new Map(procedures.map((p) => [p.slug as string, p]))
-  const cards = CARD_ORDER.map((slug) => bySlug.get(slug)).filter(Boolean)
-  const signature = bySlug.get('cling-signature')
-  const signatureSteps = (signature?.procedureSteps ?? []) as { title: string; description?: string | null }[]
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: '클링 에스테틱',
-    image: '/assets/hero-still-30s.png',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '왕십리로 369 동인레반트오피스텔 1층',
-      addressLocality: '성동구',
-      addressRegion: '서울',
-      addressCountry: 'KR',
-    },
-    telephone: '0507-1386-2479',
-    openingHoursSpecification: [
-      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '10:00', closes: '20:00' },
-      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '10:00', closes: '16:00' },
-    ],
-  }
-
+// Claude Design 산출물(클링에스테틱 홈페이지 리디자인1/cling-home.dc.html) 홈페이지를 그대로 이식.
+export default function HomePage() {
   return (
     <div style={{ minHeight: '100vh' }}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section id="top" style={{ position: 'relative', height: '100vh', minHeight: 560, overflow: 'hidden' }}>
+      <section style={{ position: 'relative', width: '100%', height: '82vh', minHeight: 460, overflow: 'hidden' }}>
         <video
           src="/assets/hero-30s.mp4"
-          poster="/assets/hero-still-30s.png"
+          poster="/assets/home-hero-poster.png"
           autoPlay
           muted
           loop
           playsInline
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
         />
-        <div
-          style={cssObj(
-            `position:absolute;left:0;right:0;bottom:0;padding:0 clamp(22px,6vw,80px) clamp(60px,9vw,110px);background:linear-gradient(transparent,rgba(51,27,15,.5))`,
-          )}
-        >
-          <Reveal as="p" style={cssObj(`margin:0 0 14px;font-family:Poppins,sans-serif;font-size:clamp(28px,7vw,70px);text-transform:uppercase;color:#fff;line-height:1.05;letter-spacing:-.01em`)}>
-            Cling Aesthetic
+      </section>
+
+      <section id="top" style={cssObj(`padding:clamp(90px,12vw,170px) clamp(22px,6vw,48px) clamp(70px,9vw,120px);text-align:center`)}>
+        <div style={cssObj(`max-width:900px;margin:0 auto`)}>
+          <Reveal as="p" style={cssObj(`margin:0 0 clamp(18px,2.6vw,26px);font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>
+            CLING AESTHETIC
           </Reveal>
-          <Reveal as="p" style={cssObj(`margin:0 0 clamp(24px,3vw,34px);font-size:clamp(16px,2.4vw,26px);color:#f3e9e6;font-weight:300`)}>
-            왕십리, 결을 다듬는 시간
+          <Reveal as="h1" style={cssObj(`margin:0;font-size:clamp(30px,5.6vw,72px);font-weight:600;line-height:1.02;letter-spacing:-.02em`)}>
+            순서가 있는
+            <br />
+            피부 관리
           </Reveal>
-          <Reveal style={cssObj(`display:flex;flex-wrap:wrap;gap:12px`)}>
-            <HoverLink href="/reservation" css="font-size:14.5px;padding:16px 30px;background:#fff;color:#331b0f;min-height:44px" hoverCss="background:#d08c81;color:#fff">
-              예약 문의하기 →
-            </HoverLink>
-            <HoverLink href="/procedures/cling-signature" css="font-size:14.5px;padding:16px 30px;border:1px solid rgba(255,255,255,.7);color:#fff;min-height:44px" hoverCss="border-color:#fff;background:rgba(255,255,255,.12)">
+          <Reveal as="p" style={cssObj(`margin:clamp(18px,2.4vw,26px) auto 0;max-width:30em;font-size:clamp(15px,2.1vw,22px);font-weight:400;line-height:1.6;color:#4b4b4b`)}>
+            강한 관리보다 맞는 순서를 먼저 봅니다. 1:1 상담으로 오늘 필요한 관리와 강도를 함께 정합니다.
+          </Reveal>
+          <Reveal style={cssObj(`display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:clamp(28px,3.6vw,40px)`)}>
+            <HoverLink href="/procedures/cling-signature" css="font-size:15px;padding:16px 34px;background:#331b0f;color:#fff;min-height:44px" hoverCss="background:#d08c81">
               클링시그니쳐 보기
             </HoverLink>
+            <HoverLink href="/reservation" css="font-size:15px;padding:16px 34px;border:1px solid #e8e4e1;min-height:44px" hoverCss="border-color:#d08c81;color:#d08c81">
+              예약 문의하기
+            </HoverLink>
           </Reveal>
         </div>
       </section>
 
-      <section style={cssObj(`padding:clamp(70px,10vw,130px) clamp(22px,6vw,80px);text-align:center`)}>
-        <Reveal as="p" style={cssObj(`font-family:Poppins,sans-serif;font-size:12px;letter-spacing:.3em;color:var(--color-accent);margin:0 0 22px`)}>
-          OUR CARE
+      <section id="philosophy" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px);text-align:center`)}>
+        <Reveal as="p" style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>
+          OUR PHILOSOPHY
         </Reveal>
-        <Reveal as="h2" style={cssObj(`margin:0;font-size:clamp(26px,4vw,44px);font-weight:400;line-height:1.4`)}>
-          피부 상태를 먼저 살피고
+        <Reveal as="h2" style={cssObj(`margin:clamp(10px,1.2vw,14px) 0 0;font-size:clamp(24px,4vw,46px);font-weight:500;line-height:1.3`)}>
+          관리는
           <br />
-          지금 필요한 관리만 권합니다.
+          순서에서 시작합니다.
         </Reveal>
-        <div style={cssObj(`max-width:1180px;margin:clamp(48px,6vw,80px) auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(20px,2.4vw,28px)`)}>
-          {cards.map((p) => (
-            <Link key={p!.slug as string} href={`/procedures/${p!.slug}`} style={cssObj(`display:block;text-align:left`)}>
-              <div style={cssObj(`width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--color-ivory)`)}>
-                {imgUrl(p!.heroImage as MediaLike) && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={imgUrl(p!.heroImage as MediaLike)} alt={p!.name as string} style={cssObj(`width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s`)} />
+        <Reveal style={cssObj(`width:1px;height:clamp(18px,2.4vw,30px);margin:clamp(14px,1.8vw,20px) auto 0;background:linear-gradient(#e8e4e1,rgba(232,228,225,0))`)} />
+        <div style={cssObj(`max-width:1200px;margin:clamp(12px,1.6vw,18px) auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));text-align:left`)}>
+          <Reveal style={cssObj(`padding:clamp(24px,3vw,36px) clamp(20px,2.6vw,40px)`)}>
+            <p style={cssObj(`margin:0;font-size:12px;letter-spacing:.24em;color:#d08c81`)}>01</p>
+            <p style={cssObj(`margin:14px 0 0;font-size:clamp(16px,1.9vw,19px);font-weight:500`)}>1:1 프라이빗 상담</p>
+            <p style={cssObj(`margin:12px 0 0;font-size:clamp(14.5px,1.7vw,16px);line-height:2.05;color:#4b4b4b`)}>
+              피부 상태를 먼저 확인하고, 오늘 필요한 관리와 강도를 함께 정합니다.
+            </p>
+          </Reveal>
+          <Reveal style={cssObj(`padding:clamp(24px,3vw,36px) clamp(20px,2.6vw,40px);border-left:1px solid #e8e4e1;border-right:1px solid #e8e4e1`)}>
+            <p style={cssObj(`margin:0;font-size:12px;letter-spacing:.24em;color:#d08c81`)}>02</p>
+            <p style={cssObj(`margin:14px 0 0;font-size:clamp(16px,1.9vw,19px);font-weight:500`)}>순서가 있는 케어</p>
+            <p style={cssObj(`margin:12px 0 0;font-size:clamp(14.5px,1.7vw,16px);line-height:2.05;color:#4b4b4b`)}>
+              정리하고, 다듬고, 채우고, 마무리합니다. 단계를 건너뛰지 않는 것이 기준입니다.
+            </p>
+          </Reveal>
+          <Reveal style={cssObj(`padding:clamp(24px,3vw,36px) clamp(20px,2.6vw,40px)`)}>
+            <p style={cssObj(`margin:0;font-size:12px;letter-spacing:.24em;color:#d08c81`)}>03</p>
+            <p style={cssObj(`margin:14px 0 0;font-size:clamp(16px,1.9vw,19px);font-weight:500`)}>편한 접근성</p>
+            <p style={cssObj(`margin:12px 0 0;font-size:clamp(14.5px,1.7vw,16px);line-height:2.05;color:#4b4b4b`)}>
+              오피스텔 1층, 퇴근길에도 부담 없이 이어가실 수 있습니다.
+            </p>
+          </Reveal>
+        </div>
+        <Reveal
+          as="p"
+          style={cssObj(
+            `max-width:24em;margin:clamp(18px,2.4vw,28px) auto 0;padding-top:clamp(14px,1.8vw,20px);border-top:1px solid #e8e4e1;font-size:clamp(18px,2.4vw,28px);font-weight:400;line-height:1.65`,
+          )}
+        >
+          강한 관리보다
+          <br />
+          <strong style={{ fontWeight: 600 }}>맞는 순서</strong>를 먼저 찾습니다.
+        </Reveal>
+      </section>
+
+      <section id="firstvisit" style={cssObj(`padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(34px,5vw,72px);align-items:start`)}>
+          <Reveal>
+            <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>FIRST VISIT</p>
+            <h2 style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 0;font-size:clamp(22px,3vw,36px);font-weight:500;line-height:1.4`)}>처음 오시는 분께</h2>
+            <p style={cssObj(`margin:16px 0 0;font-size:13.5px;line-height:1.9;color:#8a7f78`)}>예약 시 미리 알려주시면 관리 시간을 여유 있게 잡아드립니다.</p>
+          </Reveal>
+          <Reveal as="ul" style={cssObj(`margin:0;padding:0;list-style:none`)}>
+            {[
+              '첫 방문은 상담 시간이 포함되어 관리 시간이 조금 더 길어집니다.',
+              '가격은 피부 상태와 관리 방향에 따라 달라져 상담 후 안내드립니다.',
+              '레이저·시술을 최근 받으셨다면 예약 시 미리 알려주세요.',
+              '관리 효과와 지속 기간은 개인의 피부 상태에 따라 차이가 있을 수 있습니다.',
+            ].map((text, i, arr) => (
+              <li
+                key={text}
+                style={cssObj(
+                  `display:flex;gap:12px;font-size:15px;line-height:1.95;color:#4b4b4b;padding:16px 0;border-top:1px solid #e8e4e1${i === arr.length - 1 ? ';border-bottom:1px solid #e8e4e1' : ''}`,
                 )}
-              </div>
-              <p style={cssObj(`margin:16px 0 0;font-size:16px;font-weight:500`)}>{p!.name as string}</p>
-              {p!.summary ? <p style={cssObj(`margin:6px 0 0;font-size:13px;color:var(--color-caption);line-height:1.6`)}>{p!.summary as string}</p> : null}
-            </Link>
-          ))}
+              >
+                <span style={cssObj(`flex:none;width:4px;height:4px;margin-top:11px;border-radius:50%;background:#d08c81`)} />
+                <span>{text}</span>
+              </li>
+            ))}
+          </Reveal>
         </div>
       </section>
 
-      <section style={cssObj(`background:var(--color-ivory);padding:clamp(70px,10vw,130px) clamp(22px,6vw,80px);text-align:center`)}>
-        <Reveal as="p" style={cssObj(`font-family:Poppins,sans-serif;font-size:12px;letter-spacing:.3em;color:var(--color-accent);margin:0 0 22px`)}>
-          PHILOSOPHY
-        </Reveal>
-        <Reveal as="h2" style={cssObj(`margin:0;font-size:clamp(26px,4vw,44px);font-weight:400;line-height:1.4`)}>
-          강한 관리보다,
-          <br />
-          맞는 관리를 먼저 생각합니다.
-        </Reveal>
-        <div style={cssObj(`max-width:1080px;margin:clamp(40px,5vw,64px) auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;text-align:left`)}>
-          {[
-            ['01', '1:1 프라이빗 상담', '방문 즉시 관리로 들어가지 않고, 지금 피부 상태를 먼저 확인한 뒤 방향을 정합니다.'],
-            ['02', '순서가 있는 케어', '클렌징부터 딥클렌징, 본 관리, 진정까지 — 단계를 건너뛰지 않습니다.'],
-            ['03', '왕십리, 접근성 좋은 위치', '왕십리역·상왕십리역 도보권. 퇴근길에도 부담 없이 들를 수 있는 위치입니다.'],
-          ].map(([n, title, desc]) => (
-            <Reveal key={n} style={cssObj(`padding:clamp(22px,3vw,34px) clamp(18px,2.4vw,36px);border-top:1px solid var(--color-hairline)`)}>
-              <p style={cssObj(`margin:0;font-family:Poppins,sans-serif;font-size:12px;color:var(--color-number)`)}>{n}</p>
-              <p style={cssObj(`margin:14px 0 0;font-size:16px;font-weight:500`)}>{title}</p>
-              <p style={cssObj(`margin:10px 0 0;font-size:14px;line-height:1.9;color:var(--color-ink-soft)`)}>{desc}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {signature && (
-        <section style={cssObj(`padding:clamp(70px,10vw,130px) clamp(22px,6vw,80px)`)}>
-          <div style={cssObj(`max-width:1080px;margin:0 auto`)}>
-            <Reveal as="p" style={cssObj(`font-family:Poppins,sans-serif;font-size:12px;letter-spacing:.3em;color:var(--color-accent);margin:0 0 18px;text-align:center`)}>
-              CLING SIGNATURE
-            </Reveal>
-            <Reveal as="h2" style={cssObj(`margin:0 0 clamp(40px,5vw,60px);font-size:clamp(26px,4vw,44px);font-weight:400;text-align:center;line-height:1.4`)}>
-              클링시그니쳐
-            </Reveal>
-            <div style={cssObj(`display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,3vw,36px)`)}>
-              {signatureSteps.map((s, i) => (
-                <Reveal key={i}>
-                  <p style={cssObj(`margin:0;font-family:Poppins,sans-serif;font-size:clamp(22px,2.6vw,28px);color:var(--color-accent)`)}>{s.title}</p>
-                  {s.description && <p style={cssObj(`margin:10px 0 0;font-size:14px;line-height:1.8;color:var(--color-ink-soft)`)}>{s.description}</p>}
-                </Reveal>
+      <section id="signature" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
+          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+            <video src="/assets/home-signature.mp4" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </Reveal>
+          <Reveal style={cssObj(`max-width:30em`)}>
+            <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>CLING SIGNATURE</p>
+            <h2 style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 0;font-size:clamp(26px,4.2vw,52px);font-weight:600;line-height:1.18;letter-spacing:-.02em`)}>
+              한 번에 네 단계,
+              <br />
+              피부가 달라지는 순서
+            </h2>
+            <p style={cssObj(`margin:clamp(18px,2.4vw,26px) 0 0;font-size:clamp(15px,1.9vw,18px);line-height:1.9;color:#4b4b4b`)}>정리하고 · 다듬고 · 끌어올리고 · 채웁니다.</p>
+            <div style={cssObj(`margin-top:clamp(24px,3.2vw,36px);display:grid;gap:0`)}>
+              {['클렌징', '라라필', '웨이브온 리프팅', '벨벳 콜라겐'].map((label, i, arr) => (
+                <div
+                  key={label}
+                  style={cssObj(
+                    `display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;padding:18px 0;border-top:1px solid #e8e4e1${i === arr.length - 1 ? ';border-bottom:1px solid #e8e4e1' : ''}`,
+                  )}
+                >
+                  <span style={cssObj(`font-size:clamp(18px,2.2vw,24px);font-weight:600;color:#d08c81;min-width:2.2em`)}>{i + 1}/</span>
+                  <span style={cssObj(`font-size:clamp(15.5px,1.8vw,18px);font-weight:600;min-width:7em`)}>{label}</span>
+                </div>
               ))}
             </div>
-            <div style={cssObj(`text-align:center;margin-top:clamp(40px,5vw,56px)`)}>
-              <HoverLink href="/procedures/cling-signature" css="font-size:14.5px;padding:16px 34px;border:1px solid var(--color-ink);color:var(--color-ink)" hoverCss="background:var(--color-ink);color:#fff">
-                클링시그니쳐 자세히 보기 →
-              </HoverLink>
-            </div>
-          </div>
-        </section>
-      )}
+            <HoverLink
+              href="/procedures/cling-signature"
+              css="display:inline-block;margin-top:clamp(24px,3.2vw,36px);font-size:15px;padding:16px 34px;background:#331b0f;color:#fff;min-height:44px"
+              hoverCss="background:#d08c81"
+            >
+              클링시그니쳐 자세히
+            </HoverLink>
+          </Reveal>
+        </div>
+      </section>
 
-      <section id="visit" style={cssObj(`background:var(--color-dark);color:#f3ece8;padding:clamp(70px,10vw,130px) clamp(22px,6vw,80px);text-align:center`)}>
-        <Reveal as="p" style={cssObj(`font-family:Poppins,sans-serif;font-size:12px;letter-spacing:.3em;color:var(--color-number);margin:0 0 22px`)}>
-          VISIT CLING AESTHETIC
-        </Reveal>
-        <Reveal as="h2" style={cssObj(`margin:0;font-size:clamp(24px,3.6vw,40px);font-weight:400;line-height:1.5`)}>
-          서울 성동구 왕십리로 369
+      <section id="wave" style={cssObj(`padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
+          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+            <video src="/assets/home-wave.mp4" aria-label="웨이브온 리프팅" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </Reveal>
+          <Reveal style={cssObj(`max-width:30em`)}>
+            <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>WAVE ON LIFTING</p>
+            <h2 style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 0;font-size:clamp(26px,4.2vw,52px);font-weight:600;line-height:1.18;letter-spacing:-.02em`)}>
+              열은 속으로,
+              <br />
+              자극은 남지 않게
+            </h2>
+            <p style={cssObj(`margin:clamp(18px,2.4vw,26px) 0 0;font-size:clamp(15px,1.9vw,18px);line-height:1.9;color:#4b4b4b`)}>극초단파로 속부터 끌어올리는 비수술 리프팅입니다.</p>
+            <div style={cssObj(`margin-top:clamp(24px,3.2vw,36px);display:grid;gap:0`)}>
+              {['딥 클렌징', '웨이브온 롤링', '진정 보습팩'].map((label, i, arr) => (
+                <div
+                  key={label}
+                  style={cssObj(
+                    `display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;padding:18px 0;border-top:1px solid #e8e4e1${i === arr.length - 1 ? ';border-bottom:1px solid #e8e4e1' : ''}`,
+                  )}
+                >
+                  <span style={cssObj(`font-size:clamp(18px,2.2vw,24px);font-weight:600;color:#d08c81;min-width:2.2em`)}>{i + 1}/</span>
+                  <span style={cssObj(`font-size:clamp(15.5px,1.8vw,18px);font-weight:600;min-width:7em`)}>{label}</span>
+                </div>
+              ))}
+            </div>
+            <HoverLink
+              href="/procedures/wave-on-lifting"
+              css="display:inline-block;margin-top:clamp(24px,3.2vw,36px);font-size:15px;padding:16px 34px;background:#331b0f;color:#fff;min-height:44px"
+              hoverCss="background:#d08c81"
+            >
+              웨이브온 리프팅 자세히
+            </HoverLink>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="acne" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
+          <Reveal style={cssObj(`max-width:30em`)}>
+            <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>ACNE CARE</p>
+            <h2 style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 0;font-size:clamp(26px,4.2vw,52px);font-weight:600;line-height:1.18;letter-spacing:-.02em`)}>
+              세게 잡기 전에,
+              <br />
+              밸런스부터
+            </h2>
+            <p style={cssObj(`margin:clamp(18px,2.4vw,26px) 0 0;font-size:clamp(15px,1.9vw,18px);line-height:1.9;color:#4b4b4b`)}>강한 관리보다 무너진 유수분 밸런스를 먼저 잡습니다.</p>
+            <div style={cssObj(`margin-top:clamp(24px,3.2vw,36px);display:grid;gap:0`)}>
+              {['클렌징 · 딥클렌징', '진정 팩 (1차)', '여드름 기기 관리', '마무리 팩 (2차)'].map((label, i, arr) => (
+                <div
+                  key={label}
+                  style={cssObj(
+                    `display:flex;flex-wrap:wrap;gap:14px;align-items:baseline;padding:18px 0;border-top:1px solid #e8e4e1${i === arr.length - 1 ? ';border-bottom:1px solid #e8e4e1' : ''}`,
+                  )}
+                >
+                  <span style={cssObj(`font-size:clamp(18px,2.2vw,24px);font-weight:600;color:#d08c81;min-width:2.2em`)}>{i + 1}/</span>
+                  <span style={cssObj(`font-size:clamp(15.5px,1.8vw,18px);font-weight:600;min-width:7em`)}>{label}</span>
+                </div>
+              ))}
+            </div>
+            <HoverLink
+              href="/procedures/acne-care"
+              css="display:inline-block;margin-top:clamp(24px,3.2vw,36px);font-size:15px;padding:16px 34px;background:#331b0f;color:#fff;min-height:44px"
+              hoverCss="background:#d08c81"
+            >
+              여드름 관리 자세히
+            </HoverLink>
+          </Reveal>
+          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+            <video src="/assets/home-acne.mp4" aria-label="여드름 관리" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="menu" style={cssObj(`padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto`)}>
+          <Reveal as="p" style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>
+            OTHER CARE
+          </Reveal>
+          <Reveal as="h2" style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 clamp(28px,3.6vw,44px);font-size:clamp(22px,3vw,36px);font-weight:500;line-height:1.4`)}>
+            그 외 관리
+          </Reveal>
+          {[
+            { href: '/procedures/hydration-care', name: '수분관리', desc: '피부 타입에 맞춰 유수분 밸런스를 채우는 4종 구성' },
+            { href: '/procedures/collagen-velvet', name: '콜라겐 벨벳 관리', desc: '엑소좀·PDRN 스킨부스터와 백설관리로 구성된 프리미엄 케어' },
+            { href: '/procedures/peeling', name: '필링', desc: '모공·잔주름·피부결 고민에 맞춘 저자극 필링 라인업' },
+            { href: '/procedures/revelook', name: '리베룩', desc: '5회·10회 과정으로 이어가는 꾸준한 관리 프로그램' },
+          ].map((row, i, arr) => (
+            <HoverLink
+              key={row.href}
+              href={row.href}
+              css={`display:flex;flex-wrap:wrap;align-items:baseline;gap:clamp(14px,3vw,36px);padding:clamp(22px,3vw,32px) clamp(4px,1.2vw,16px);border-top:1px solid #e8e4e1${i === arr.length - 1 ? ';border-bottom:1px solid #e8e4e1' : ''}`}
+              hoverCss="background:#fff"
+            >
+              <span style={cssObj(`flex:0 1 10em;font-size:clamp(16px,2vw,21px);font-weight:500`)}>{row.name}</span>
+              <span style={cssObj(`flex:1 1 260px;font-size:14.5px;line-height:1.9;color:#4b4b4b`)}>{row.desc}</span>
+              <span style={{ color: '#d08c81' }}>→</span>
+            </HoverLink>
+          ))}
+        </div>
+      </section>
+
+      <section id="flow" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto`)}>
+          <Reveal as="p" style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>
+            HOW IT GOES
+          </Reveal>
+          <Reveal as="h2" style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 clamp(30px,4vw,48px);font-size:clamp(22px,3vw,36px);font-weight:500;line-height:1.4`)}>
+            방문부터 홈케어까지
+          </Reveal>
+          <div style={cssObj(`display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))`)}>
+            {[
+              ['1/', '1:1 상담', '피부 상태와 생활 습관을 확인하고, 오늘 필요한 관리와 강도를 함께 정합니다.', ''],
+              ['2/', '순서대로 관리', '단계를 건너뛰지 않고 진행하며, 중간중간 반응을 확인해 강도를 조절합니다.', 'border-left:1px solid #e8e4e1;border-right:1px solid #e8e4e1'],
+              ['3/', '홈케어 안내', '관리 후 며칠간의 보습·자외선 차단과 다음 방문 주기를 정리해 안내드립니다.', ''],
+            ].map(([n, title, desc, extra]) => (
+              <Reveal key={n} style={cssObj(`padding:clamp(24px,3vw,36px) clamp(20px,2.6vw,40px) 0${extra ? ';' + extra : ''}`)}>
+                <p style={cssObj(`margin:0;font-size:clamp(26px,3.4vw,40px);font-weight:600;color:#d08c81;line-height:1`)}>{n}</p>
+                <p style={cssObj(`margin:16px 0 0;font-size:clamp(16px,1.9vw,19px);font-weight:600`)}>{title}</p>
+                <p style={cssObj(`margin:12px 0 0;font-size:clamp(14.5px,1.7vw,16px);line-height:2.05;color:#4b4b4b`)}>{desc}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="visit" style={cssObj(`padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
+        <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(34px,5vw,72px);align-items:start`)}>
+          <Reveal>
+            <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>VISIT</p>
+            <h2 style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 clamp(24px,3vw,36px);font-size:clamp(22px,3vw,36px);font-weight:500;line-height:1.4`)}>오시는길</h2>
+            <dl style={{ margin: 0 }}>
+              <div style={cssObj(`display:flex;gap:18px;padding:15px 0;border-top:1px solid #e8e4e1`)}>
+                <dt style={cssObj(`margin:0;width:5.5em;flex:none;font-size:13px;color:#8a7f78`)}>주소</dt>
+                <dd style={cssObj(`margin:0;font-size:15px;line-height:1.8`)}>
+                  서울 성동구 왕십리로 369
+                  <br />
+                  동인레반트오피스텔 1층
+                </dd>
+              </div>
+              <div style={cssObj(`display:flex;gap:18px;padding:15px 0;border-top:1px solid #e8e4e1`)}>
+                <dt style={cssObj(`margin:0;width:5.5em;flex:none;font-size:13px;color:#8a7f78`)}>영업시간</dt>
+                <dd style={cssObj(`margin:0;font-size:15px;line-height:1.9`)}>
+                  월~금 10:00–20:00
+                  <br />토 10:00–16:00
+                  <br />
+                  <span style={{ color: '#8a7f78' }}>일요일 정기휴무</span>
+                </dd>
+              </div>
+              <div style={cssObj(`display:flex;gap:18px;padding:15px 0;border-top:1px solid #e8e4e1;border-bottom:1px solid #e8e4e1`)}>
+                <dt style={cssObj(`margin:0;width:5.5em;flex:none;font-size:13px;color:#8a7f78`)}>전화</dt>
+                <dd style={cssObj(`margin:0;font-size:15px`)}>
+                  <a href="tel:0507-1386-2479" style={{ borderBottom: '1px solid #e8e4e1' }}>
+                    0507-1386-2479
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </Reveal>
+          <Reveal
+            as="a"
+            href="https://map.naver.com/"
+            target="_blank"
+            rel="noopener"
+            style={cssObj(`display:flex;width:100%;aspect-ratio:4/3;background:#ece8e4;align-items:center;justify-content:center`)}
+          >
+            <span style={cssObj(`font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.06em;color:#a09790;text-align:center;line-height:1.7`)}>
+              MAP · 네이버 지도 임베드
+              <br />
+              왕십리로 369
+            </span>
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="contact" style={cssObj(`background:#2d1c14;color:#f6f1ee;padding:clamp(110px,15vw,240px) clamp(22px,6vw,48px);text-align:center`)}>
+        <Reveal as="h2" style={cssObj(`margin:0;font-size:clamp(24px,3.6vw,42px);font-weight:400;line-height:1.45`)}>
+          지금 피부 상태부터
           <br />
-          동인레반트오피스텔 1층
+          편하게 물어보세요.
         </Reveal>
-        <Reveal as="p" style={cssObj(`margin:22px 0 0;font-size:14.5px;line-height:2;color:#d9cbc6`)}>
-          월~금 10:00~20:00 · 토 10:00~16:00 · 일요일 정기휴무
-          <br />
-          2호선 왕십리역·상왕십리역 도보권 · 건물 뒤편 기계식 주차장 이용 가능
-        </Reveal>
-        <Reveal style={cssObj(`display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:clamp(30px,4vw,44px)`)}>
-          <HoverLink href="/reservation" css="font-size:15px;padding:17px 34px;background:#fff;color:#331b0f" hoverCss="background:#d08c81;color:#fff">
-            예약 문의하기 →
+        <Reveal style={cssObj(`display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:clamp(28px,3.6vw,42px)`)}>
+          <HoverLink href="/reservation" css="font-size:15px;padding:17px 34px;background:#d08c81;color:#fff;min-height:44px" hoverCss="background:#f6f1ee;color:#2d1c14">
+            예약 문의하기
           </HoverLink>
-          <HoverLink href="/location" css="font-size:15px;padding:17px 34px;border:1px solid rgba(255,255,255,.5);color:#fff" hoverCss="border-color:#fff;background:rgba(255,255,255,.1)">
-            오시는길 자세히 →
-          </HoverLink>
+          <Link
+            href="tel:0507-1386-2479"
+            style={cssObj(`font-size:15px;padding:17px 34px;border:1px solid rgba(246,241,238,.4);color:#f6f1ee;min-height:44px;display:inline-flex;align-items:center;justify-content:center`)}
+          >
+            0507-1386-2479
+          </Link>
         </Reveal>
       </section>
     </div>

@@ -14,15 +14,16 @@ export const SITE_PAGE_OPTIONS = [
 // 관리자가 직접 입력한다 — 재배포 없이 즉시 반영됨. 여기 상수는 Payload 조회 실패 시의
 // 최후 폴백(플레이스홀더)만 담당한다.
 export const CHANNELS_FALLBACK = {
-  kakaoUrl: 'https://reservation-link-here.example',
-  naverBookingUrl: 'https://reservation-link-here.example',
+  kakaoUrl: 'http://pf.kakao.com/_cling',
+  naverBookingUrl: 'https://map.naver.com/',
   phone: '0507-1386-2479',
 }
 
 // Payload "플로팅 버튼" 글로벌이 비어있을 때 fallback.
 export const DEFAULT_FLOATING_CTA = [
-  { label: '예약 문의하기', visible: true, style: 'dark' as const, action: 'link' as const, href: '/reservation' },
-  { label: '전화 문의', visible: true, style: 'accent' as const, action: 'link' as const, href: `tel:${CHANNELS_FALLBACK.phone}` },
+  { label: '카카오톡 문의', visible: true, style: 'dark' as const, action: 'link' as const, href: CHANNELS_FALLBACK.kakaoUrl },
+  { label: '네이버 예약', visible: true, style: 'accent' as const, action: 'link' as const, href: CHANNELS_FALLBACK.naverBookingUrl },
+  { label: '전화 문의', visible: true, style: 'light' as const, action: 'link' as const, href: `tel:${CHANNELS_FALLBACK.phone}` },
 ]
 
 export type NavChild = { label: string; href: string }

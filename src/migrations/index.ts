@@ -5,6 +5,7 @@ import * as migration_20260805_070444_floating_cta from './20260805_070444_float
 import * as migration_20260805_074547_popups_size from './20260805_074547_popups_size';
 import * as migration_20260806_120000_procedures_cling_fields from './20260806_120000_procedures_cling_fields';
 import * as migration_20260806_121000_channels_direct_links from './20260806_121000_channels_direct_links';
+import * as migration_20260806_150000_procedures_design_fields from './20260806_150000_procedures_design_fields';
 
 export const migrations = [
   {
@@ -41,5 +42,10 @@ export const migrations = [
     up: migration_20260806_121000_channels_direct_links.up,
     down: migration_20260806_121000_channels_direct_links.down,
     name: '20260806_121000_channels_direct_links',
+  },
+  {
+    up: migration_20260806_150000_procedures_design_fields.up,
+    down: migration_20260806_150000_procedures_design_fields.down,
+    name: '20260806_150000_procedures_design_fields',
   },
 ];

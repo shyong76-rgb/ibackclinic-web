@@ -14,16 +14,16 @@ export type FloatingCtaButton = {
 
 const STYLE_CSS: Record<FloatingCtaButton['style'], { css: string; hoverCss: string }> = {
   dark: {
-    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#443a35;color:#fff;font-size:13.5px;letter-spacing:.02em;box-shadow:0 8px 24px rgba(68,58,53,.2)',
-    hoverCss: 'background:#aa9371',
+    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;background:#331b0f;color:#fff;font-size:13.5px',
+    hoverCss: 'background:#d08c81',
   },
   accent: {
-    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#aa9371;color:#fff;font-size:13.5px;letter-spacing:.02em;box-shadow:0 8px 24px rgba(68,58,53,.2)',
-    hoverCss: 'background:#443a35;color:#fff',
+    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;background:#d08c81;color:#fff;font-size:13.5px',
+    hoverCss: 'background:#2d1c14;color:#fff',
   },
   light: {
-    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;border-radius:999px;background:#fff;border:1px solid #ddd3c2;color:#443a35;font-size:13.5px;box-shadow:0 8px 24px rgba(68,58,53,.12)',
-    hoverCss: 'border-color:#aa9371;color:#aa9371',
+    css: 'display:flex;align-items:center;min-height:44px;padding:13px 22px;white-space:nowrap;background:#fff;border:1px solid #e8e4e1;color:#331b0f;font-size:13.5px',
+    hoverCss: 'border-color:#d08c81;color:#d08c81',
   },
 }
 
@@ -57,8 +57,17 @@ export function FloatingCta({ buttons }: { buttons: FloatingCtaButton[] }) {
               </Hoverable>
             )
           }
+          const isExternal = !!btn.href && !btn.href.startsWith('tel:') && !btn.href.startsWith('/')
           return (
-            <Hoverable key={btn.id ?? i} as="a" href={btn.href || '#'} target="_blank" rel="noopener" css={css} hoverCss={hoverCss}>
+            <Hoverable
+              key={btn.id ?? i}
+              as="a"
+              href={btn.href || '#'}
+              target={isExternal ? '_blank' : undefined}
+              rel={isExternal ? 'noopener' : undefined}
+              css={css}
+              hoverCss={hoverCss}
+            >
               {btn.label}
             </Hoverable>
           )
