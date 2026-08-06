@@ -7,6 +7,8 @@ import { getPayloadClient } from '@/lib/payload'
 // 호출해야 한다(로컬로 호출하면 다시 로컬 디스크에 저장되어 의미 없음).
 // 적용 후 이 파일은 삭제하고 재배포한다.
 
+export const maxDuration = 60
+
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3HOgJpo09zCNKnNhwzuIRvuFdRO'
 
 const TARGETS: { slug: string; file: string }[] = [
@@ -19,36 +21,31 @@ const TARGETS: { slug: string; file: string }[] = [
   { slug: 'revelook', file: 'hf_20260806_035323_5af593c9-4266-4bd8-adce-d32d17c66347.png' },
 ]
 
-export async function GET() {
+async function fixOne(t: { slug: string; file: string }) {
   const payload = await getPayloadClient()
-  const results: string[] = []
+  const res = await fetch(`${BASE}/${t.file}`)
+  if (!res.ok) return `${t.slug}: fetch failed ${res.status}`
 
-  for (const t of TARGETS) {
-    const res = await fetch(`${BASE}/${t.file}`)
-    if (!res.ok) {
-      results.push(`${t.slug}: fetch failed ${res.status}`)
-      continue
-    }
-    const buf = Buffer.from(await res.arrayBuffer())
-    const tmpPath = `/tmp/${t.file}`
-    await fs.writeFile(tmpPath, buf)
+  const buf = Buffer.from(await res.arrayBuffer())
+  const tmpPath = `/tmp/fix-${t.slug}.png`
+  await fs.writeFile(tmpPath, buf)
 
-    const media = await payload.create({
-      collection: 'media',
-      filePath: tmpPath,
-      data: { alt: `${t.slug} 관리 이미지` },
-    })
+  const media = await payload.create({
+    collection: 'media',
+    filePath: tmpPath,
+    data: { alt: `${t.slug} 관리 이미지` },
+  })
 
-    const existing = await payload.find({ collection: 'procedures', where: { slug: { equals: t.slug } }, limit: 1 })
-    if (!existing.docs[0]) {
-      results.push(`${t.slug}: procedure not found`)
-      continue
-    }
-    await payload.update({ collection: 'procedures', id: existing.docs[0].id, data: { heroImage: media.id } })
-    results.push(`${t.slug}: ok (media ${media.id})`)
+  const existing = await payload.find({ collection: 'procedures', where: { slug: { equals: t.slug } }, limit: 1 })
+  await fs.unlink(tmpPath).catch(() => {})
+  if (!existing.docs[0]) return `${t.slug}: procedure not found`
 
-    await fs.unlink(tmpPath).catch(() => {})
-  }
+  await payload.update({ collection: 'procedures', id: existing.docs[0].id, data: { heroImage: media.id } })
+  return `${t.slug}: ok (media ${media.id})`
+}
 
+export async function GET() {
+  const settled = await Promise.allSettled(TARGETS.map(fixOne))
+  const results = settled.map((r, i) => (r.status === 'fulfilled' ? r.value : `${TARGETS[i].slug}: ERROR ${String(r.reason)}`))
   return NextResponse.json({ ok: true, results })
 }
