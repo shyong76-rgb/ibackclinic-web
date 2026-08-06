@@ -15,6 +15,7 @@ export default function HomePage() {
           muted
           loop
           playsInline
+          preload="auto"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
         />
       </section>
@@ -192,6 +193,9 @@ export default function HomePage() {
 
       <section id="acne" style={cssObj(`background:#f7f5f3;padding:clamp(120px,16vw,260px) clamp(22px,6vw,48px)`)}>
         <div style={cssObj(`max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(30px,4.5vw,64px);align-items:center`)}>
+          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
+            <video src="/assets/home-acne.mp4" aria-label="여드름 관리" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </Reveal>
           <Reveal style={cssObj(`max-width:30em`)}>
             <p style={cssObj(`margin:0;font-size:11.5px;letter-spacing:.3em;color:#d08c81`)}>ACNE CARE</p>
             <h2 style={cssObj(`margin:clamp(16px,2.2vw,24px) 0 0;font-size:clamp(26px,4.2vw,52px);font-weight:600;line-height:1.18;letter-spacing:-.02em`)}>
@@ -220,9 +224,6 @@ export default function HomePage() {
             >
               여드름 관리 자세히
             </HoverLink>
-          </Reveal>
-          <Reveal style={cssObj(`width:100%;max-width:420px;aspect-ratio:4/5;overflow:hidden;margin:0 auto`)}>
-            <video src="/assets/home-acne.mp4" aria-label="여드름 관리" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </Reveal>
         </div>
       </section>
