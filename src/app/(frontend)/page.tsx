@@ -30,7 +30,7 @@ export default function HomePage() {
             <br />
             피부 관리
           </Reveal>
-          <Reveal as="p" style={cssObj(`margin:clamp(28px,3.6vw,40px) auto 0;max-width:30em;font-size:clamp(15px,2.1vw,22px);font-weight:400;line-height:1.6;color:#4b4b4b`)}>
+          <Reveal as="p" style={cssObj(`margin:clamp(84px,10.8vw,120px) auto 0;max-width:30em;font-size:clamp(15px,2.1vw,22px);font-weight:400;line-height:1.6;color:#4b4b4b`)}>
             강한 관리보다 맞는 순서를 먼저 봅니다. 1:1 상담으로 오늘 필요한 관리와 강도를 함께 정합니다.
           </Reveal>
           <Reveal style={cssObj(`display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:clamp(28px,3.6vw,40px)`)}>
